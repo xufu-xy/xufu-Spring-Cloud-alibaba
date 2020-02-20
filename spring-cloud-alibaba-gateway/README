@@ -1,0 +1,64 @@
+一，本网关基于SpringCloudGateway与nacos路由配置实现。
+
+二，要启动本网关需要在nacos配置中心添加如下两个配置：
+1.
+  Data Id：gateway-server.yml
+  Group：pay
+  格式为yaml
+  内容如下：
+  spring:
+    cloud:
+      nacos:
+        discovery:
+          server-addr: ${spring.cloud.nacos.config.server-addr}
+        locator:
+            enabled: true
+            lowerCaseServiceId: true
+
+
+  nacos:
+    address: 192.168.0.106:8848
+    data-id: gateway_config_json
+    group-id: refresh_config_json
+    timeout: 5000
+
+  server:
+    port: 5008
+
+  # 配置输出日志
+  logging:
+    level:
+      org.springframework.cloud.gateway: TRACE
+      org.springframework.http.server.reactive: DEBUG
+      org.springframework.web.reactive: DEBUG
+      reactor.ipc.netty: DEBUG
+
+  #开启端点
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: '*'
+    security:
+      enabled: false
+
+2.
+  Data Id：gateway_config_json
+  Group：refresh_config_json
+  格式为json
+  内容如下：
+  [
+   {
+  	"filters": [],
+  	"id": "blog1",
+  	"order": 0,
+  	"predicates": [{
+  		"args": {
+  			"pattern": "/c"
+  		},
+  		"name": "Path"
+  	}],
+  	"uri": "https://www.jd.com/"
+  }
+  ]
+  这里只实现了一个跳转到京东的路由，要增加在json数组中复制一个修改参数即可。
