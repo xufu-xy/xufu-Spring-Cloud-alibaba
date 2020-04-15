@@ -1,6 +1,7 @@
 一，本网关基于SpringCloudGateway与nacos路由配置实现。
 
 二，要启动本网关需要在nacos配置中心添加如下两个配置：
+复制粘贴时请注意yml的格式，对缩进空格等要求非常严格。注意复制后会变形。调整！！！
 1.
   Data Id：gateway-server.yml
   Group：pay
